@@ -37,8 +37,8 @@
        새 게임을 시작할 때 아래 세 항목을 수정하고 커밋하세요!
        ========================================== */
     const GAME_SETTING = {
-        keywordA: "체리(넷카마아님)",
-        keywordB: "체리(넷카마아님)",
+        keywordA: "황금향",
+        keywordB: "한라봉",
         hint: "과일"
     };
     /* ========================================== */
@@ -70,9 +70,9 @@
 
         // 역할 풀 생성 (30인 기준)
         const roles = [
-            ...Array(12).fill(GAME_SETTING.keywordA),
-            ...Array(12).fill(GAME_SETTING.keywordB),
-            ...Array(6).fill(`마피아 (힌트: ${GAME_SETTING.hint})`)
+            ...Array(8).fill(GAME_SETTING.keywordA),
+            ...Array(8).fill(GAME_SETTING.keywordB),
+            ...Array(14).fill(`마피아 (힌트: ${GAME_SETTING.hint})`)
         ];
 
         // 랜덤 셔플 및 선택
