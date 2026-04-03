@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>과일 마피아: 자동 리셋 모드</title>
+    <style>
+        body { font-family: 'Pretendard', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
+        .card { background: white; padding: 2.5rem; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; width: 85%; max-width: 450px; }
+        h1 { color: #2c3e50; font-size: 1.6rem; margin-bottom: 0.5rem; }
+        #result { font-size: 2.2rem; font-weight: 800; margin: 30px 0; color: #34495e; min-height: 3.5rem; display: flex; align-items: center; justify-content: center; border: 2px dashed #eee; border-radius: 15px; }
+        button { background: linear-gradient(135deg, #3498db, #2980b9); color: white; border: none; padding: 18px; border-radius: 12px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3); }
+        button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4); }
+        .notice { font-size: 0.85rem; color: #7f8c8d; margin-top: 25px; line-height: 1.6; text-align: left; background: #fdfdfd; padding: 15px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>🕵️‍♂️ 네오방 마피아 🕵️‍♂️</h1>
+    <p style="color: #7f8c8d; margin-bottom: 20px;">당신의 역할을 확인하고 대화에 참여하세요!</p>
+    
+    <div id="result">역할 확인 전</div>
+    
+    <button id="main-btn" onclick="assignRole()">내 역할 확인하기</button>
+
+    <div class="notice">
+        • <b>글자 수 언급 절대 금지!</b> (예: "두 글자야")<br>
+        • 마피아는 대화를 듣고 제시어를 추측하세요!<br>
+        • <b>새 게임 공지 시</b> 페이지를 새로고침 해주세요.
+    </div>
+</div>
+
+<script>
+    /* ==========================================
+       [사회자 수정 구간] 
+       새 게임을 시작할 때 아래 세 항목을 수정하고 커밋하세요!
+       ========================================== */
+    const GAME_SETTING = {
+        keywordA: "복숭아",
+        keywordB: "자두",
+        hint: "과일"
+    };
+    /* ========================================== */
+
+    const resultDiv = document.getElementById('result');
+    const mainBtn = document.getElementById('main-btn');
+
+    // 현재 코드에 적힌 게임 설정을 하나의 문자열(Key)로 변환
+    const currentGameKey = JSON.stringify(GAME_SETTING);
+
+    window.onload = function() {
+        const savedGameKey = localStorage.getItem('last_game_key');
+        
+        // [로직] 코드의 설정과 저장된 설정이 다르면 초기화!
+        if (savedGameKey !== currentGameKey) {
+            localStorage.removeItem('my_role'); // 기존 역할 삭제
+            localStorage.setItem('last_game_key', currentGameKey); // 새 설정 키 저장
+        }
+
+        // 이미 뽑은 역할이 있다면 보여주기
+        const myRole = localStorage.getItem('my_role');
+        if (myRole) {
+            displayRole(myRole);
+        }
+    };
+
+    function assignRole() {
+        if (localStorage.getItem('my_role')) return;
+
+        // 역할 풀 생성 (30인 기준)
+        const roles = [
+            ...Array(12).fill(GAME_SETTING.keywordA),
+            ...Array(12).fill(GAME_SETTING.keywordB),
+            ...Array(6).fill(`마피아 (힌트: ${GAME_SETTING.hint})`)
+        ];
+
+        // 랜덤 셔플 및 선택
+        const selected = roles[Math.floor(Math.random() * roles.length)];
+
+        localStorage.setItem('my_role', selected);
+        displayRole(selected);
+    }
+
+    function displayRole(role) {
+        resultDiv.innerText = role;
+        mainBtn.style.display = 'none'; // 버튼 숨기기
+        
+        if (role.includes("마피아")) {
+            resultDiv.style.color = "#e74c3c"; // 마피아는 빨간색
+            resultDiv.style.borderColor = "#ffcccc";
+        } else {
+            resultDiv.style.color = "#27ae60"; // 시민은 초록색
+            resultDiv.style.borderColor = "#ccffdd";
+        }
+    }
+</script>
+
+</body>
+</html>
