@@ -37,8 +37,8 @@
        새 게임을 시작할 때 아래 세 항목을 수정하고 커밋하세요!
        ========================================== */
     const GAME_SETTING = {
-        keywordA: "매실",
-        keywordB: "매실",
+        keywordA: "파인애플",
+        keywordB: "애플",
         hint: "두글자임ㅋㅋ"
     };
     /* ========================================== */
@@ -71,8 +71,8 @@
         // 역할 풀 생성 (30인 기준)
         const roles = [
             ...Array(9).fill(GAME_SETTING.keywordA),
-            ...Array(8).fill(GAME_SETTING.keywordB),
-            ...Array(13).fill(`마피아 (힌트: ${GAME_SETTING.hint})`)
+            ...Array(9).fill(GAME_SETTING.keywordB),
+            ...Array(12).fill(`마피아 (힌트: ${GAME_SETTING.hint})`)
         ];
 
         // 랜덤 셔플 및 선택
